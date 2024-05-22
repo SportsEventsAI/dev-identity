@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("React-AD-B2C-WebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2c9c39a1a2495bc527b91b8caca6728fa1f2bea0")]
 [assembly: System.Reflection.AssemblyProductAttribute("React-AD-B2C-WebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("React-AD-B2C-WebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
