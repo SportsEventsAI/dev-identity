@@ -1,10 +1,9 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Identity.Web;
 using React_AD_B2C_WebApi.Services;
 using System;
 
@@ -38,8 +37,7 @@ namespace React_AD_B2C_WebApi
             });
 
 
-            services.AddAuthentication(AzureADDefaults.BearerAuthenticationScheme)
-                .AddAzureADBearer(options => Configuration.Bind("AzureAd", options));
+            services.AddMicrosoftIdentityWebApiAuthentication(Configuration, "AzureAdB2C");
             services.AddControllers();
 
             services.AddSingleton<IItemsService, ItemsService>();
