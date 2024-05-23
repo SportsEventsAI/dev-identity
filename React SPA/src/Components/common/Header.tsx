@@ -33,12 +33,12 @@ export const Header: FC<HeaderProps> = ({ accountInfo, logout }) => {
 				<div className="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul className="navbar-nav mr-auto">
 						<li className="nav-item">
-							<NavLink className="nav-link" activeClassName="active" exact to="/">
+							<NavLink className="nav-link" to="/">
 								Home
 							</NavLink>
 						</li>
 						<li className="nav-item">
-							<NavLink className="nav-link" activeClassName="active" to="/items">
+							<NavLink className="nav-link" to="/items">
 								Items
 							</NavLink>
 						</li>

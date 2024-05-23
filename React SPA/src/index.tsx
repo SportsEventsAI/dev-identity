@@ -1,17 +1,21 @@
-import 'bootstrap/dist/css/bootstrap.css';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './App.scss';
-import App from './Components/App';
-import Authenticating from './Components/auth/Authenticating';
-import Unauthenticated from './Components/auth/Unauthenticated';
-import WithLogin from './Components/auth/WithLogin';
+import "bootstrap/dist/css/bootstrap.css";
+import React from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App";
+import "./App.scss";
 
-const AppWithLogin = (): JSX.Element => WithLogin(App, Authenticating, Unauthenticated);
+import { PublicClientApplication } from "@azure/msal-browser";
+import { MsalProvider } from "@azure/msal-react";
+import { msalConfig } from "./authConfig";
 
-ReactDOM.render(
-	<React.StrictMode>
-		<AppWithLogin />
-	</React.StrictMode>,
-	document.getElementById('root')
+// Bootstrap components
+import "bootstrap/dist/css/bootstrap.min.css";
+
+const msalInstance = new PublicClientApplication(msalConfig);
+
+const root = document.createElement("root");
+createRoot(root).render(
+  <MsalProvider instance={msalInstance}>
+    <App />
+  </MsalProvider>
 );
