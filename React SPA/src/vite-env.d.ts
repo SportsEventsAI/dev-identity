@@ -1,5 +1,8 @@
 /// <reference types="vite/client" />
 
+/**
+ * Represents the environment variables available in the import.meta.env object.
+ */
 interface ImportMetaEnv {
     readonly VITE_AD_B2C_API_URI: string;
     readonly VITE_AD_B2C_TENANT: string;
