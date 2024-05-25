@@ -1,140 +1,132 @@
-import React, { FC, useEffect, useState } from "react";
-import { Route, Routes, useResolvedPath } from "react-router-dom";
-import { guid } from "../../models/guid";
-import { useUserStore } from "../common/UserStoreContext";
-import { ItemEditData } from "./ItemEditForm";
-import { ItemPage } from "./ItemPage";
-import ItemRow from "./ItemRow";
-import { ItemsSearchData, ItemsSearchForm } from "./ItemsSearchForm";
-import { deleteItem, searchItems, useGetItems } from "./itemHelpers";
-import { ItemHeader } from "./models";
+import React, { FC, useEffect, useState } from 'react';
+import { Route, Routes, useResolvedPath } from 'react-router-dom';
+import { guid } from '../../models/guid';
+import { useUserStore } from '../common/UserStoreContext';
+import { ItemEditData } from './ItemEditForm';
+import { ItemPage } from './ItemPage';
+import ItemRow from './ItemRow';
+import { ItemsSearchData, ItemsSearchForm } from './ItemsSearchForm';
+import { deleteItem, searchItems, useGetItems } from './itemHelpers';
+import { ItemHeader } from './models';
 
 export type ItemsPageProps = {};
 
-export const ItemsPage: FC<ItemsPageProps> = () => {
-  const { readonly } = useUserStore();
-  const [{ payload: apiItems, loading }, doRefresh] = useGetItems();
-  const [updatedItem, setUpdatedItem] = useState<ItemHeader | null>(null);
-  const [items, setItems] = useState<ItemHeader[]>([]);
-  const [orderedItems, setOrderedItems] = useState<ItemHeader[]>([]);
-  const [isAdding, setIsAdding] = useState<boolean>(false);
+const ItemsPage: FC<ItemsPageProps> = () => {
+    const { readonly } = useUserStore();
+    const [{ payload: apiItems, loading }, doRefresh] = useGetItems();
+    const [updatedItem, setUpdatedItem] = useState<ItemHeader | null>(null);
+    const [items, setItems] = useState<ItemHeader[]>([]);
+    const [orderedItems, setOrderedItems] = useState<ItemHeader[]>([]);
+    const [isAdding, setIsAdding] = useState<boolean>(false);
 
-  useEffect(() => {
-    setItems(orderItems(apiItems || []));
-  }, [apiItems]);
+    useEffect(() => {
+        setItems(orderItems(apiItems || []));
+    }, [apiItems]);
 
-  useEffect(() => {
-    setOrderedItems(orderItems(items));
-  }, [items]);
+    useEffect(() => {
+        setOrderedItems(orderItems(items));
+    }, [items]);
 
-  useEffect(() => {
-    if (!updatedItem) {
-      return;
+    useEffect(() => {
+        if (!updatedItem) {
+            return;
+        }
+
+        setItems((items) => {
+            let updated = items.map((x) => (x.id === updatedItem.id ? updatedItem : x));
+            updated = orderItems(updated);
+            return updated;
+        });
+
+        setUpdatedItem(null);
+    }, [updatedItem]);
+
+    const url = useResolvedPath('').pathname;
+
+    function orderItems(items: ItemHeader[]): ItemHeader[] {
+        return items.sort((a, b) => a.name.localeCompare(b.name));
     }
 
-    setItems((items) => {
-      let updated = items.map((x) =>
-        x.id === updatedItem.id ? updatedItem : x
-      );
-      updated = orderItems(updated);
-      return updated;
-    });
-
-    setUpdatedItem(null);
-  }, [updatedItem]);
-
-  // The `path` lets us build <Route> paths that are
-  // relative to the parent route, while the `url` lets
-  // us build relative links.
-  const url = useResolvedPath("").pathname;
-
-  function orderItems(items: ItemHeader[]): ItemHeader[] {
-    return items.sort((a, b) => a.name.localeCompare(b.name));
-  }
-
-  function handleCancelEditing(): void {
-    setIsAdding(false);
-  }
-
-  function handleEdited(item: ItemHeader): void {
-    setUpdatedItem(item);
-  }
-
-  function handleAdded(_item: ItemEditData): void {
-    doRefresh();
-  }
-
-  async function handleDeleteItem(id: guid): Promise<void> {
-    const result = await deleteItem(id);
-    if (result) {
-      doRefresh();
+    function handleCancelEditing(): void {
+        setIsAdding(false);
     }
-  }
 
-  async function handleSearch(payload: ItemsSearchData): Promise<void> {
-    const result = await searchItems(payload.type, payload.text);
-    if (result) {
-      setItems(result);
+    function handleEdited(item: ItemHeader): void {
+        setUpdatedItem(item);
     }
-  }
 
-  async function handleResetSearch(): Promise<void> {
-    doRefresh();
-  }
+    function handleAdded(_item: ItemEditData): void {
+        doRefresh();
+    }
 
-  return (
-    <>
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-4">
-            {!readonly && (
-              <div className="d-flex flex-row-reverse mb-2">
-                <button
-                  className="btn btn-outline-info align-self-end"
-                  onClick={() => setIsAdding(true)}
-                >
-                  Add
-                </button>
-              </div>
-            )}
+    async function handleDeleteItem(id: guid): Promise<void> {
+        const result = await deleteItem(id);
+        if (result) {
+            doRefresh();
+        }
+    }
 
-            <ItemsSearchForm
-              handleSearch={handleSearch}
-              handleReset={handleResetSearch}
-            />
+    async function handleSearch(payload: ItemsSearchData): Promise<void> {
+        const result = await searchItems(payload.type, payload.text);
+        if (result) {
+            setItems(result);
+        }
+    }
 
-            <div className="list-group">
-              {loading && <p>Loading...</p>}
+    async function handleResetSearch(): Promise<void> {
+        doRefresh();
+    }
 
-              {orderedItems.length === 0 && <p>No items found</p>}
+    return (
+        <div className="container-fluid">
+            <div className="row">
+                <div className="col-4">
+                    {!readonly && (
+                        <div className="d-flex flex-row-reverse mb-2">
+                            <button className="btn btn-outline-info align-self-end" onClick={() => setIsAdding(true)}>
+                                Add
+                            </button>
+                        </div>
+                    )}
 
-              {orderedItems.map((item) => (
-                <ItemRow
-                  key={item.id}
-                  item={item}
-                  onDeleteItem={handleDeleteItem}
-                />
-              ))}
+                    <ItemsSearchForm handleSearch={handleSearch} handleReset={handleResetSearch} />
+
+                    <div className="list-group">
+                        {loading && <p>Loading...</p>}
+
+                        {orderedItems.length === 0 && <p>No items found</p>}
+
+                        {orderedItems.map((item) => (
+                            <ItemRow key={item.id} item={item} onDeleteItem={handleDeleteItem} />
+                        ))}
+                    </div>
+                </div>
+
+                <div className="col-8">
+                    <Routes>
+                        <Route
+                            path={`${url}/:id`}
+                            element={
+                                <ItemPage
+                                    isNew={isAdding}
+                                    onEdited={handleEdited}
+                                    onAdded={handleAdded}
+                                    onCancel={handleCancelEditing}
+                                />
+                            }
+                        />
+                        <Route path={url} element={<h3>Please select an item.</h3>} />
+                    </Routes>
+                </div>
             </div>
-          </div>
-
-          <div className="col-8">
-            <Routes>
-              <Route path={`${url}/:id`}>
-                <ItemPage
-                  isNew={isAdding}
-                  onEdited={handleEdited}
-                  onAdded={handleAdded}
-                  onCancel={handleCancelEditing}
-                />
-              </Route>
-              <Route path={url}>
-                <h3>Please select a item.</h3>
-              </Route>
-            </Routes>
-          </div>
         </div>
-      </div>
-    </>
-  );
+    );
 };
+
+export default ItemsPage;
+
+/**
+ * Code Haiku
+ * 2024-05-24
+ * Integrated MSAL authentication logic and routing for ItemsPage component
+ */
