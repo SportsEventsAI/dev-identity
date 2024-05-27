@@ -1,16 +1,61 @@
+/**
+ * Represents the configuration options for MSAL (Microsoft Authentication Library).
+ */
 export interface ImsalConfig {
+  /**
+   * The application ID.
+   */
   appid: string;
+  
+  /**
+   * The name of the application.
+   */
   appname: string;
+  
+  /**
+   * The version of the application.
+   */
   appversion: string;
+  
+  /**
+   * The B2C login URL.
+   */
   b2clogin: string;
+  
+  /**
+   * The B2C tenant.
+   */
   b2ctenant: string;
+  
+  /**
+   * The B2C sign-up or sign-in policy.
+   */
   b2cSUSIPolicy: string;
+  
+  /**
+   * The authority URL.
+   */
   authority: string;
+  
+  /**
+   * The scopes required for authentication.
+   */
   scopes: string[];
+  
+  /**
+   * The API URI.
+   */
   apiUri: string;
+  
+  /**
+   * The redirect URI.
+   */
   redirectUri: string;
 }
 
+/**
+ * Represents the configuration for MSAL (Microsoft Authentication Library).
+ */
 class MsalConfig implements ImsalConfig {
   public appid: string;
   public appname: string;
@@ -25,6 +70,9 @@ class MsalConfig implements ImsalConfig {
 
   private static instance: MsalConfig;
 
+  /**
+   * Private constructor to enforce singleton pattern.
+   */
   private constructor() {
     this.appid = import.meta.env.VITE_AD_B2C_APPID;
     this.appname = import.meta.env.VITE_AD_B2C_APPNAME;
@@ -38,6 +86,10 @@ class MsalConfig implements ImsalConfig {
     this.redirectUri = import.meta.env.VITE_AD_B2C_REACT_REDIRECT_URI;
   }
 
+  /**
+   * Returns the singleton instance of MsalConfig.
+   * @returns The singleton instance of MsalConfig.
+   */
   public static getInstance(): MsalConfig {
     if (!MsalConfig.instance) {
       MsalConfig.instance = new MsalConfig();

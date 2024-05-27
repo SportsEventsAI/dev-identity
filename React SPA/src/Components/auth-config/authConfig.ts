@@ -41,11 +41,11 @@ export const msalConfig = {
         /**
          * The location to store the cache.
          */
-        cacheLocation: "sessionStorage",
+        cacheLocation: 'sessionStorage',
         /**
          * The temporary cache location.
          */
-        temporaryCacheLocation: "sessionStorage",
+        temporaryCacheLocation: 'sessionStorage',
         /**
          * Indicates whether to store the authentication state in a cookie.
          */
@@ -70,11 +70,7 @@ export const msalConfig = {
             /**
              * The callback function for logging.
              */
-            loggerCallback: (
-                level: LogLevel,
-                message: string,
-                containsPii: boolean
-            ): void => {
+            loggerCallback: (level: LogLevel, message: string, containsPii: boolean): void => {
                 if (containsPii) {
                     return;
                 }
