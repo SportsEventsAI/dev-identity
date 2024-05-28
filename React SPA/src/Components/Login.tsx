@@ -1,10 +1,10 @@
 // src/components/Login.tsx
-import React from 'react';
 import { useMsal } from '@azure/msal-react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { loginRequest } from '../Components/auth-config/authConfig';
-import { loginSuccess } from '../store/authSlice';
+import { loginRequest } from '../auth-config/authConfig';
 import { AppDispatch } from '../store';
+import { loginSuccess } from '../store/authSlice';
 
 const Login: React.FC = () => {
     const { instance } = useMsal();

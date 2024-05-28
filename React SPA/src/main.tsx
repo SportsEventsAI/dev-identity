@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 import App from './Components/App';
-import { msalConfig } from './Components/auth-config/authConfig';
+import { msalConfig } from './config/authConfig';
 
 // Style Sheet
 import './main.scss';
