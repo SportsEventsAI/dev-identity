@@ -1,15 +1,15 @@
-import './App.scss';
-
 // src/main.tsx
 import { PublicClientApplication } from '@azure/msal-browser';
 import { MsalProvider } from '@azure/msal-react';
-import 'bootstrap/dist/css/bootstrap.css';
+
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
+
+import store from './store';
+
 import App from './Components/App';
 import { msalConfig } from './Components/auth-config/authConfig';
-import store from './store';
 
 // Style Sheet
 import './main.scss';
