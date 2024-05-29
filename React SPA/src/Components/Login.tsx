@@ -2,7 +2,7 @@
 import { useMsal } from '@azure/msal-react';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { loginRequest } from '../auth-config/authConfig';
+import { loginRequest } from '../config/authConfig';
 import { AppDispatch } from '../store';
 import { loginSuccess } from '../store/authSlice';
 
