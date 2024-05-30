@@ -1,8 +1,8 @@
 import { LogLevel } from '@azure/msal-browser';
-import MsalConfig from './msalConfig';
+import Config from './config';
 
 // Get the configuration instance
-const config = MsalConfig.getInstance();
+const config = Config.getInstance();
 
 /**
  * Configuration object to be passed to MSAL instance on creation.
@@ -20,19 +20,19 @@ export const msalConfig = {
         /**
          * The client ID of the application.
          */
-        clientId: config.appid,
+        clientId: config.app.id,
         /**
          * The authority URL for authentication.
          */
-        authority: config.authority,
+        authority: config.getAuthority(),
         /**
          * The known authorities for authentication.
          */
-        knownAuthorities: [config.b2clogin],
+        knownAuthorities: [config.getDomain('login')],
         /**
          * The redirect URI for authentication.
          */
-        redirectUri: config.redirectUri,
+        redirectUri: config.app.redirectUri,
     },
     /**
      * Cache configuration.
@@ -122,11 +122,11 @@ export const msalConfig = {
             /**
              * The name of the application.
              */
-            appName: config.appname,
+            appName: config.app.name,
             /**
              * The version of the application.
              */
-            appVersion: config.appversion,
+            appVersion: config.app.version,
         },
     },
 };
@@ -138,7 +138,7 @@ export const msalConfig = {
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
  */
 export const loginRequest = {
-    scopes: config.scopes,
+    scopes: [config.b2c.scopes.read],
 };
 
 /**
@@ -146,6 +146,6 @@ export const loginRequest = {
  * The current application coordinates were pre-registered in a B2C tenant.
  */
 export const apiConfig = {
-    scopes: config.scopes,
-    uri: config.apiUri,
+    scopes: config.b2c.scopes.write,
+    uri: config.api.uri,
 };
