@@ -1,13 +1,14 @@
 // src/store/authSlice.ts
+import { AccountInfo } from '@azure/msal-browser';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface AuthState {
+interface IAuthState {
     isAuthenticated: boolean;
-    user: any; // Adjust the type as necessary
+    user: AccountInfo | null; // Adjust the type as necessary
     token: string | null;
 }
 
-const initialState: AuthState = {
+const initialState: IAuthState = {
     isAuthenticated: false,
     user: null,
     token: null,
@@ -25,7 +26,7 @@ const authSlice = createSlice({
          * @param state - The current state.
          * @param action - The login success action containing the user and token.
          */
-        loginSuccess(state, action: PayloadAction<{ user: any; token: string }>) {
+        loginSuccess(state, action: PayloadAction<{ user: AccountInfo | null; token: string | null }>) {
             state.isAuthenticated = true;
             state.user = action.payload.user;
             state.token = action.payload.token;

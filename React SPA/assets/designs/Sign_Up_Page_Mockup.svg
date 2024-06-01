@@ -1,0 +1,42 @@
+<svg width="800" height="1200" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        .title { font-family: Arial; font-size: 24px; fill: #4a4a4a; }
+        .text { font-family: Arial; font-size: 18px; fill: #4a4a4a; }
+        .input { fill: #f5f5f5; stroke: #4a4a4a; }
+        .button { fill: #a3c1ad; stroke: #4a4a4a; }
+        .icon { fill: #4a4a4a; }
+    </style>
+    <text x="20" y="50" class="title">Sign Up</text>
+    
+    <rect x="20" y="100" width="760" height="50" class="button" />
+    <text x="40" y="130" class="text">Sign Up with Microsoft</text>
+    
+    <rect x="20" y="170" width="760" height="50" class="button" />
+    <text x="40" y="200" class="text">Sign Up with Facebook</text>
+    
+    <rect x="20" y="240" width="760" height="50" class="button" />
+    <text x="40" y="270" class="text">Sign Up with Google</text>
+    
+    <text x="20" y="330" class="text">Or Sign Up with Email</text>
+    
+    <rect x="20" y="370" width="760" height="50" class="input" />
+    <text x="40" y="400" class="text">Name</text>
+    
+    <rect x="20" y="440" width="760" height="50" class="input" />
+    <text x="40" y="470" class="text">Contact Phone</text>
+    
+    <rect x="20" y="510" width="760" height="50" class="input" />
+    <text x="40" y="540" class="text">Email</text>
+    
+    <rect x="20" y="580" width="760" height="50" class="input" />
+    <text x="40" y="610" class="text">Billing Address</text>
+    
+    <rect x="20" y="650" width="760" height="50" class="input" />
+    <text x="40" y="680" class="text">Birthday</text>
+    
+    <rect x="20" y="720" width="760" height="50" class="input" />
+    <text x="40" y="750" class="text">Password</text>
+    
+    <rect x="20" y="800" width="760" height="50" class="button" />
+    <text x="40" y="830" class="text">Sign Up</text>
+</svg>

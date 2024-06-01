@@ -1,5 +1,6 @@
 import { LogLevel } from '@azure/msal-browser';
 import Config from './config';
+import { B2CDomainTypes } from '../services/auth/types/enums/B2CDomainTypes';
 
 // Get the configuration instance
 const config = Config.getInstance();
@@ -24,11 +25,11 @@ export const msalConfig = {
         /**
          * The authority URL for authentication.
          */
-        authority: config.getAuthority(),
+        authority: config.getAuthority('signIn'),
         /**
          * The known authorities for authentication.
          */
-        knownAuthorities: [config.getDomain('login')],
+        knownAuthorities: [config.getDomain(B2CDomainTypes.Tenant), config.getDomain(B2CDomainTypes.Login)],
         /**
          * The redirect URI for authentication.
          */
@@ -129,23 +130,4 @@ export const msalConfig = {
             appVersion: config.app.version,
         },
     },
-};
-
-/**
- * Scopes you add here will be prompted for user consent during sign-in.
- * By default, MSAL.js will add OIDC scopes (openid, profile, email) to any login request.
- * For more information about OIDC scopes, visit:
- * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
- */
-export const loginRequest = {
-    scopes: [config.b2c.scopes.read],
-};
-
-/**
- * Enter here the coordinates of your web API and scopes for access token request
- * The current application coordinates were pre-registered in a B2C tenant.
- */
-export const apiConfig = {
-    scopes: config.b2c.scopes.write,
-    uri: config.api.uri,
 };

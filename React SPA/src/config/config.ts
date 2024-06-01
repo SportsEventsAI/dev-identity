@@ -1,4 +1,4 @@
-import { B2CDomainType } from '../types/b2cTypes';
+import { B2CDomainTypes } from '../services/auth/types/enums/B2CDomainTypes';
 
 /**
  * Represents the configuration options for MSAL (Microsoft Authentication Library).
@@ -168,10 +168,10 @@ class Config implements IConfig {
      * @param domainType The type of domain ('tenant' or 'login').
      * @returns The full domain URL.
      */
-    public getDomain(domainType: B2CDomainType): string {
-        if (domainType === 'tenant') {
+    public getDomain(domainType: B2CDomainTypes): string {
+        if (domainType === B2CDomainTypes.Tenant) {
             return `${this.b2c.tenant.name}.${this.b2c.tenant.domain}`;
-        } else if (domainType === 'login') {
+        } else if (domainType === B2CDomainTypes.Login) {
             return `${this.b2c.tenant.name}.${this.b2c.login.domain}`;
         } else {
             throw new Error(`Invalid domain type: ${domainType}`);
