@@ -1,3 +1,4 @@
+// src/services/auth/types/interfaces/IAuthResponse.ts
 import { AccountInfo } from '@azure/msal-browser';
 
 /**

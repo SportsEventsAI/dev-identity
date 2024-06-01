@@ -1,3 +1,4 @@
+// src/services/auth/resetPassword.ts
 import { IPublicClientApplication } from '@azure/msal-browser';
 import { IAuthResponse } from './types/interfaces/IAuthResponse';
 import Config from '../../config/config';
