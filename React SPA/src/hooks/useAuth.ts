@@ -1,27 +1,74 @@
 // src/hooks/useAuth.ts
 
 import { useDispatch, useSelector } from 'react-redux';
-import LoginService from '../services/Auth/LoginService';
-import { LoginAction, LogoutAction } from '../redux/authSlice';
+import { updateAuthState, AuthStatus } from '../redux/authActions';
 import { RootState } from '../redux/store';
+import { useMsal } from '@azure/msal-react';
+import { IConfigResult } from '../types/IConfig';
+import { useConfig } from './useConfig';
+import { AuthenticationResult } from '@azure/msal-browser';
+import { AuthActionType } from '../types/authTypes';
 
 export const useAuth = () => {
+    const { instance } = useMsal();
     const dispatch = useDispatch();
+    const { config } = useConfig() as IConfigResult;
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
     const user = useSelector((state: RootState) => state.auth.user);
+    const error = useSelector((state: RootState) => state.auth.error);
 
-    const handleLogin = async (username: string, password: string) => {
+    const handleAuthAction = async (action: AuthActionType, request?: any) => {
         try {
-            const authResponse = await LoginService(username, password);
-            dispatch(LoginAction({ user: authResponse.user, token: authResponse.token }));
+            let authResponse: AuthenticationResult | void;
+
+            switch (action) {
+                case AuthActionType.LOGIN:
+                    authResponse = await instance.loginPopup(request);
+                    dispatch(
+                        updateAuthState({
+                            status: AuthStatus.SUCCESS,
+                            user: authResponse.account,
+                            token: authResponse.idToken,
+                            claims: authResponse.idTokenClaims,
+                        }),
+                    );
+                    break;
+                case AuthActionType.LOGOUT:
+                    await instance.logoutPopup(request);
+                    dispatch(updateAuthState({ status: AuthStatus.SUCCESS }));
+                    break;
+                case AuthActionType.RESET_PASSWORD:
+                    authResponse = await instance.loginPopup(request);
+                    dispatch(updateAuthState({ status: AuthStatus.SUCCESS }));
+                    break;
+                default:
+                    break;
+            }
         } catch (error: any) {
-            throw new Error(error.message);
+            dispatch(updateAuthState({ status: AuthStatus.FAILURE, error: error.message }));
         }
     };
 
-    const handleLogout = () => {
-        dispatch(LogoutAction());
+    const handleLogin = async () => {
+        const loginRequest = {
+            scopes: [config.b2c.scopes.read, config.b2c.scopes.write],
+        };
+        await handleAuthAction(AuthActionType.LOGIN, loginRequest);
     };
 
-    return { isAuthenticated, user, handleLogin, handleLogout };
+    const handleLogout = async () => {
+        const logoutRequest = {
+            postLogoutRedirectUri: '/',
+        };
+        await handleAuthAction(AuthActionType.LOGOUT, logoutRequest);
+    };
+
+    const handleResetPassword = async () => {
+        const resetRequest = {
+            authority: `https://${config.b2c.tenant.name}.${config.b2c.tenant.domain}/${config.b2c.policies.resetPassword}`,
+        };
+        await handleAuthAction(AuthActionType.RESET_PASSWORD, resetRequest);
+    };
+
+    return { isAuthenticated, user, error, handleLogin, handleLogout, handleResetPassword };
 };
