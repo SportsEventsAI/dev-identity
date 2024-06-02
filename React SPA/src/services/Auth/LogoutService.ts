@@ -1,6 +1,6 @@
 // src/services/auth/logout.ts
 import { IPublicClientApplication } from '@azure/msal-browser';
-import { IAuthResponse } from './types/interfaces/IAuthResponse';
+import { IAuthResponse } from '../../types/IAuthResponse';
 
 /**
  * Function to handle logout logic

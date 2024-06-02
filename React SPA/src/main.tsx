@@ -6,10 +6,10 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 
-import { store } from './store';
-
-import App from './components/App';
+import ErrorBoundary from './components/ErrorBoundary';
 import { msalConfig } from './config/authConfig';
+import App from './pages/App';
+import { store } from './redux/store';
 
 // Style Sheet
 import './main.scss';
@@ -21,6 +21,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
  * Creates a new instance of the PublicClientApplication class.
  * @param {MsalConfiguration} config - The configuration object for MSAL.
  * @returns {PublicClientApplication} - The newly created instance of PublicClientApplication.
+ * @filename src/main.tsx
  */
 const msalInstance = new PublicClientApplication(msalConfig);
 
@@ -28,9 +29,11 @@ const rootElement = document.getElementById('root');
 if (rootElement) {
     createRoot(rootElement).render(
         <Provider store={store}>
-            <MsalProvider instance={msalInstance}>
-                <App />
-            </MsalProvider>
+            <ErrorBoundary>
+                <MsalProvider instance={msalInstance}>
+                    <App />
+                </MsalProvider>
+            </ErrorBoundary>
         </Provider>,
     );
 }

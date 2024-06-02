@@ -1,25 +1,27 @@
 // src/hooks/useAuth.ts
-import { IPublicClientApplication } from '@azure/msal-browser';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../store';
-import { loginSuccess } from '../store/authSlice';
-import login from '../services/auth/login';
 
-/**
- * Custom hook to handle authentication logic
- * @param instance {IPublicClientApplication} - The MSAL instance
- */
-export const useAuth = (instance: IPublicClientApplication) => {
-    const dispatch = useDispatch<AppDispatch>();
+import { useDispatch, useSelector } from 'react-redux';
+import LoginService from '../services/Auth/LoginService';
+import { LoginAction, LogoutAction } from '../redux/authSlice';
+import { RootState } from '../redux/store';
 
-    const handleLogin = async () => {
+export const useAuth = () => {
+    const dispatch = useDispatch();
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const user = useSelector((state: RootState) => state.auth.user);
+
+    const handleLogin = async (username: string, password: string) => {
         try {
-            const { user, token } = await login(instance);
-            dispatch(loginSuccess({ user, token }));
-        } catch (error) {
-            console.error(error);
+            const authResponse = await LoginService(username, password);
+            dispatch(LoginAction({ user: authResponse.user, token: authResponse.token }));
+        } catch (error: any) {
+            throw new Error(error.message);
         }
     };
 
-    return { handleLogin };
+    const handleLogout = () => {
+        dispatch(LogoutAction());
+    };
+
+    return { isAuthenticated, user, handleLogin, handleLogout };
 };

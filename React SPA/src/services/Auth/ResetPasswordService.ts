@@ -1,12 +1,13 @@
-// src/services/auth/resetPassword.ts
+// src/services/Auth/ResetPasswordService.ts
 import { IPublicClientApplication } from '@azure/msal-browser';
-import { IAuthResponse } from './types/interfaces/IAuthResponse';
-import Config from '../../config/config';
+import { IAuthResponse } from '../../types/IAuthResponse';
+import Config from '../../config';
 
 /**
  * Function to handle password reset logic
  * @param instance {IPublicClientApplication} - The MSAL instance
  * @returns {Promise<IAuthResponse>} - The response containing user and token after password reset
+ * @filename src/services/Auth/ResetPasswordService.ts
  */
 const resetPassword = async (instance: IPublicClientApplication): Promise<IAuthResponse> => {
     // Get the configuration instance

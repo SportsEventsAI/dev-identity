@@ -26,7 +26,7 @@ const authSlice = createSlice({
          * @param state - The current state.
          * @param action - The login success action containing the user and token.
          */
-        loginSuccess(state, action: PayloadAction<{ user: AccountInfo | null; token: string | null }>) {
+        login(state, action: PayloadAction<{ user: AccountInfo | null; token: string | null }>) {
             state.isAuthenticated = true;
             state.user = action.payload.user;
             state.token = action.payload.token;
@@ -35,7 +35,12 @@ const authSlice = createSlice({
          * Updates the state to indicate a successful logout.
          * @param state - The current state.
          */
-        logoutSuccess(state) {
+        logout(state) {
+            state.isAuthenticated = false;
+            state.user = null;
+            state.token = null;
+        },
+        resetPassword: (state) => {
             state.isAuthenticated = false;
             state.user = null;
             state.token = null;
@@ -43,5 +48,5 @@ const authSlice = createSlice({
     },
 });
 
-export const { loginSuccess, logoutSuccess } = authSlice.actions;
+export const { login, logout, resetPassword } = authSlice.actions;
 export default authSlice.reducer;

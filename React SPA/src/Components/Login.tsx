@@ -1,27 +1,47 @@
-// src/components/Login.tsx
-import { useMsal } from '@azure/msal-react';
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { loginRequest } from '../config/authConfig';
-import { AppDispatch } from '../store';
-import { loginSuccess } from '../store/authSlice';
+// src/components/Auth/Login.tsx
+import React, { useState } from 'react';
+import { useAuth } from '../hooks/useAuth';
 
-const Login: React.FC = () => {
-    const { instance } = useMsal();
-    const dispatch = useDispatch<AppDispatch>();
+/**
+ * Login component handles user login using MSAL.
+ * 
+ * @component
+ * @filename src/components/Login.tsx
+ */
+const Login = (): React.ReactNode => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState<string | null>(null);
+    const { handleLogin } = useAuth();
 
-    const handleLogin = async () => {
+    const onSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError(null);
         try {
-            const response = await instance.loginPopup(loginRequest);
-            const user = response.account;
-            const token = response.idToken;
-            dispatch(loginSuccess({ user, token }));
-        } catch (error) {
-            console.error(error);
+            await handleLogin(username);
+        } catch (error: any) {
+            setError(error.message);
         }
     };
 
-    return <button onClick={handleLogin}>Login</button>;
+    return (
+        <form onSubmit={onSubmit}>
+            <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Username"
+            />
+            <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+            />
+            <button type="submit">Login</button>
+            {error && <p>{error}</p>}
+        </form>
+    );
 };
 
 export default Login;
