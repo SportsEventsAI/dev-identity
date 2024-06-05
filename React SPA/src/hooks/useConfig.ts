@@ -1,8 +1,8 @@
 // src/hooks/useConfig.ts
 
 import { useMemo } from 'react';
-import config, { getPolicyUrl, getDomainUrl } from '../config';
-import { IConfigResult, B2CDomainTypes } from '../types/IConfig';
+import config from '../config';
+import { IConfigResult } from '../types/IConfig';
 
 /**
  * useConfig hook to access configuration values.
@@ -11,11 +11,10 @@ import { IConfigResult, B2CDomainTypes } from '../types/IConfig';
  * @filename src/hooks/useConfig.ts
  */
 export const useConfig = (): IConfigResult => {
+    // Return the configuration object, memoized so that we don't recalculate it on every render
     return useMemo(
         () => ({
             config,
-            getPolicyUrl,
-            getDomainUrl,
         }),
         [],
     );

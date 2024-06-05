@@ -1,14 +1,33 @@
-// src/config/msalConfig.ts
+/**
+ * @file src/config/getMsalConfig.ts
+ * @version 0.1.1
+ * @date 2024-05-31
+ * @brief Provides the MSAL configuration for authentication.
+ * @contact Geoff DeFilippi, geoff@sportsevents.ai
+ * @github SportsEventsAI/dev-identity
+ * @subdirectory react spa
+ * @filename src/config/getMsalConfig.ts
+ * @details This module exports a function to generate the MSAL configuration object.
+ * The configuration is based on the settings provided in the singleton configuration.
+ * @reference https://github.com/AzureAD/microsoft-authentication-library-for-js
+ */
 
 import { Configuration, LogLevel } from '@azure/msal-browser';
-import config, { getPolicyUrl } from './index';
+import ConfigSingleton from '.';
 
+/**
+ * Generates the MSAL configuration object.
+ *
+ * @returns {Configuration} The MSAL configuration object.
+ */
 export const getMsalConfig = (): Configuration => {
+    const instance = ConfigSingleton.getInstance();
+
     return {
         auth: {
-            clientId: config.app.id,
-            authority: getPolicyUrl('signUpSignIn'),
-            redirectUri: config.app.redirectUri,
+            clientId: instance.config.app.id,
+            authority: `https://${instance.config.b2c.tenant.name}.${instance.config.b2c.tenant.domain}/${instance.config.b2c.policies.signUpSignIn}`,
+            redirectUri: instance.config.app.redirectUri,
         },
         cache: {
             cacheLocation: 'localStorage', // This configures where your cache will be stored

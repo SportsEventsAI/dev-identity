@@ -1,7 +1,9 @@
 // src/pages/App.tsx
 
 import React from 'react';
-import AppLayout from '../components/AppLayout';
+import AuthButton from '../components/AuthButton';
+import ShowConfig from '../components/ShowConfig/ShowConfig';
+import { useAuth } from '../hooks/useAuth';
 import { HomePage } from './HomePage';
 
 /**
@@ -11,10 +13,24 @@ import { HomePage } from './HomePage';
  * @filename src/pages/App.tsx
  */
 const App = () => {
+    // Get the isAuthenticated state from the useAuth hook
+    const { isAuthenticated } = useAuth();
+
     return (
-        <AppLayout>
-            <HomePage />
-        </AppLayout>
+        <div>
+            <header>
+                <AuthButton />
+            </header>
+            <main>
+                {isAuthenticated ? (
+                    <>
+                        <ShowConfig />
+                    </>
+                ) : (
+                    <HomePage />
+                )}
+            </main>
+        </div>
     );
 };
 

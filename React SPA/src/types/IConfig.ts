@@ -49,6 +49,4 @@ export interface IConfig {
 
 export interface IConfigResult {
     config: IConfig;
-    getPolicyUrl: (policyName: keyof IConfig['b2c']['policies']) => string;
-    getDomainUrl: (domainType: B2CDomainTypes) => string;
 }

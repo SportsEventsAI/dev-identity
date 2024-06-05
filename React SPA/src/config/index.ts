@@ -1,45 +1,19 @@
-// src/config/index.ts
+/**
+ * @file src/config/index.ts
+ * @version 0.1.1
+ * @date 2024-05-31
+ * @brief Entry point for configuration-related exports.
+ * @contact Geoff DeFilippi, geoff@sportsevents.ai
+ * @github SportsEventsAI/dev-identity
+ * @subdirectory react spa
+ * @filename src/config/index.ts
+ * @details This module exports the configuration singleton and utility functions.
+ */
 
-import { appConfig } from './appConfig';
-import { apiConfig } from './apiConfig';
-import { b2cConfig } from './b2cConfig';
-import { IConfig, B2CDomainTypes } from '../types/IConfig';
+import { ConfigSingleton } from './ConfigSingleton';
+import { getMsalConfig } from './getMsalConfig';
+import { getPolicyUrl } from './getPolicyUrl';
+import { getDomainUrl } from './getDomainUrl';
 
-class ConfigSingleton {
-    private static instance: IConfig;
-
-    public static getInstance(): IConfig {
-        if (!ConfigSingleton.instance) {
-            ConfigSingleton.instance = {
-                app: appConfig,
-                api: apiConfig,
-                b2c: b2cConfig,
-            };
-        }
-        return ConfigSingleton.instance;
-    }
-}
-
-export const getPolicyUrl = (policyName: keyof IConfig['b2c']['policies']): string => {
-    const config = ConfigSingleton.getInstance();
-    const policy = config.b2c.policies[policyName];
-    if (!policy) {
-        throw new Error(`Policy ${policyName} not found`);
-    }
-    return `https://${config.b2c.tenant.name}.${config.b2c.login.domain}/${config.b2c.tenant.name}.${config.b2c.tenant.domain}/${policy}`;
-};
-
-export const getDomainUrl = (domainType: B2CDomainTypes): string => {
-    const config = ConfigSingleton.getInstance();
-    if (domainType === B2CDomainTypes.Tenant) {
-        return `${config.b2c.tenant.name}.${config.b2c.tenant.domain}`;
-    } else if (domainType === B2CDomainTypes.Login) {
-        return `${config.b2c.tenant.name}.${config.b2c.login.domain}`;
-    } else {
-        throw new Error(`Invalid domain type: ${domainType}`);
-    }
-};
-
-export { getMsalConfig } from './msalConfig';
-
-export default ConfigSingleton.getInstance();
+const config = ConfigSingleton;
+export { getMsalConfig, getPolicyUrl, getDomainUrl };

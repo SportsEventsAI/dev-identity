@@ -1,5 +1,4 @@
 // src/main.tsx
-
 import { PublicClientApplication } from '@azure/msal-browser';
 import { MsalProvider } from '@azure/msal-react';
 import React from 'react';
@@ -25,6 +24,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
  */
 const msalInstance = new PublicClientApplication(getMsalConfig());
 
+
+// Render the application
 const rootElement = document.getElementById('root');
 if (rootElement) {
     createRoot(rootElement).render(
