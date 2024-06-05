@@ -55,4 +55,4 @@ class ConfigSingleton {
     }
 }
 
-export default ConfigSingleton.getInstance();
+export default ConfigSingleton;

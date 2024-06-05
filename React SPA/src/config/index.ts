@@ -10,10 +10,11 @@
  * @details This module exports the configuration singleton and utility functions.
  */
 
-import { ConfigSingleton } from './ConfigSingleton';
+import ConfigSingleton from './ConfigSingleton';
 import { getMsalConfig } from './getMsalConfig';
 import { getPolicyUrl } from './getPolicyUrl';
 import { getDomainUrl } from './getDomainUrl';
 
-const config = ConfigSingleton;
-export { getMsalConfig, getPolicyUrl, getDomainUrl };
+const config = ConfigSingleton.getInstance();
+
+export { config, getMsalConfig, getPolicyUrl, getDomainUrl };
