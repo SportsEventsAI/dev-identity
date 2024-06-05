@@ -36,6 +36,7 @@
         "start": "vite",
         "serve": "scripts\\react-serve.bat",
         "build": "tsc && vite build",
+        "zipai": "npx node-zip-cli zip -o zips/DevIdentity-Current.zip",
         "lint": "eslint src --report-unused-disable-directives --max-warnings 0",
         "format": "prettier --write .",
         "test": "jest",
