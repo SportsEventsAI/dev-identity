@@ -40,4 +40,6 @@ export const getDomainUrl = (domainType: B2CDomainTypes): string => {
     }
 };
 
+export { getMsalConfig } from './msalConfig';
+
 export default ConfigSingleton.getInstance();

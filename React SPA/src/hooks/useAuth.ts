@@ -7,7 +7,8 @@ import { useMsal } from '@azure/msal-react';
 import { IConfigResult } from '../types/IConfig';
 import { useConfig } from './useConfig';
 import { AuthenticationResult } from '@azure/msal-browser';
-import { AuthActionType } from '../types/authTypes';
+import { AuthActionType } from '../types/AuthTypes';
+import { getPolicyUrl } from '../config';
 
 export const useAuth = () => {
     const { instance } = useMsal();
@@ -65,7 +66,7 @@ export const useAuth = () => {
 
     const handleResetPassword = async () => {
         const resetRequest = {
-            authority: `https://${config.b2c.tenant.name}.${config.b2c.tenant.domain}/${config.b2c.policies.resetPassword}`,
+            authority: getPolicyUrl("resetPassword"),
         };
         await handleAuthAction(AuthActionType.RESET_PASSWORD, resetRequest);
     };

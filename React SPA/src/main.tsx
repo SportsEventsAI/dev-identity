@@ -1,13 +1,13 @@
 // src/main.tsx
+
 import { PublicClientApplication } from '@azure/msal-browser';
 import { MsalProvider } from '@azure/msal-react';
-
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 
 import ErrorBoundary from './components/ErrorBoundary';
-import { msalConfig } from './config/authConfig';
+import { getMsalConfig } from './config';
 import App from './pages/App';
 import { store } from './redux/store';
 
@@ -23,7 +23,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
  * @returns {PublicClientApplication} - The newly created instance of PublicClientApplication.
  * @filename src/main.tsx
  */
-const msalInstance = new PublicClientApplication(msalConfig);
+const msalInstance = new PublicClientApplication(getMsalConfig());
 
 const rootElement = document.getElementById('root');
 if (rootElement) {

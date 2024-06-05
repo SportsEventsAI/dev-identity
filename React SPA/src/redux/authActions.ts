@@ -1,6 +1,6 @@
 // src/redux/authActions.ts
 
-import { createAction, PayloadAction } from '@reduxjs/toolkit';
+import { createAction } from '@reduxjs/toolkit';
 import { AccountInfo, IdTokenClaims } from '@azure/msal-browser';
 
 export enum AuthStatus {

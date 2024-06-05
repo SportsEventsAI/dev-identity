@@ -10,13 +10,74 @@
             "type": "msedge",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}"
-        },
-        {
-            "name": "Attach to Edge",
-            "port": 5000,
-            "request": "attach",
-            "type": "msedge",
-            "webRoot": "${workspaceFolder}"
         }
     ]
 }
+
+// /// https://codeandchaos.com/blog/2017/2017-09-08-vscode-launch-create-react-app-and-chrome-with-launch-json/
+// {
+//     "version": "0.2.0",
+//     "configurations": \[
+//         {
+//             "name": "Chrome",
+//             "type": "chrome",
+//             "request": "launch",
+//             "url": "http://localhost:3000",         //Change to the create-react-app default 3000
+//             "webRoot": "${workspaceRoot}/src",
+//             "preLaunchTask": "npm: start"           //Add prelaunch Task npm: start (defined in tasks.json)
+//         }
+//     \]
+// }
+///
+// Path: .vscode/tasks.json
+// {
+//     "version": "2.0.0",
+//     "tasks": [
+//         {
+//             "label": "start",
+//             "type": "npm",
+//             "script": "start",
+//             "group": {
+//                 "kind": "test",
+//                 "isDefault": true
+//             },
+//             "presentation": {
+//                 "reveal": "always"
+//             },
+//             "problemMatcher": {
+//                 "owner": "custom",
+//                 "pattern": {
+//                     "regexp": "^((?!.*error).)*$",
+//                     "file": 1,
+//                     "location": 2,
+//                     "message": 3
+//                 }
+//             },
+//             "isBackground": true,                       //This prevents the launch.json to wait for the completion of the task
+//             "dependsOn": "install"
+//         },
+//         {
+//             "label": "install",
+//             "type": "npm",
+//             "script": "install",
+//             "group": {
+//                 "kind": "test",
+//                 "isDefault": true
+//             },
+//             "presentation": {
+//                 "reveal": "always"
+//             },
+//             "problemMatcher": {
+//                 "owner": "custom",
+//                 "pattern": {
+//                     "regexp": "^((?!.*error).)*$",
+//                     "file": 1,
+//                     "location": 2,
+//                     "message": 3
+//                 }
+//             },
+//             "isBackground": true                       //This prevents the launch.json to wait for the completion of the task
+//         }
+//     ]
+// }
+//"isBackground": true,                       //This prevents the launch.json to wait for the completion of the task

@@ -1,50 +1,54 @@
 // src/components/ErrorBoundary.tsx
 
-import React, { Component, ReactNode } from 'react';
-import { ConnectedProps, connect } from 'react-redux';
-import { logError } from '../redux/errorSlice';
-import { RootState } from '../redux/store';
+import React, { ReactNode } from 'react';
 
-interface ErrorBoundaryProps extends PropsFromRedux {
+interface ErrorBoundaryProps {
     children: ReactNode;
 }
 
 interface ErrorBoundaryState {
     hasError: boolean;
+    error: Error | null;
+    errorInfo: React.ErrorInfo | null;
 }
 
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+/**
+ * ErrorBoundary component to catch and display errors in the component tree.
+ *
+ * @component
+ * @filename src/components/ErrorBoundary.tsx
+ */
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
         super(props);
-        this.state = { hasError: false };
+        this.state = { hasError: false, error: null, errorInfo: null };
     }
 
-    static getDerivedStateFromError(_: Error): ErrorBoundaryState {
-        return { hasError: true };
+    static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
+        return { hasError: true, error };
     }
 
-    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-        console.error('Uncaught error:', error, errorInfo);
-        this.props.logError({ error, errorInfo }); // Dispatch action to log error
+    componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+        this.setState({ error, errorInfo });
+        // You can also log the error to an error reporting service here
     }
 
     render() {
         if (this.state.hasError) {
-            return <h1>Something went wrong.</h1>;
+            return (
+                <div>
+                    <h1>Something went wrong.</h1>
+                    <details style={{ whiteSpace: 'pre-wrap' }}>
+                        {this.state.error && this.state.error.toString()}
+                        <br />
+                        {this.state.errorInfo?.componentStack}
+                    </details>
+                </div>
+            );
         }
 
         return this.props.children;
     }
 }
 
-const mapStateToProps = (state: RootState) => ({});
-
-const mapDispatchToProps = {
-    logError,
-};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(ErrorBoundary);
+export default ErrorBoundary;
