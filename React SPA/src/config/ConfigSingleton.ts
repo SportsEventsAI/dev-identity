@@ -2,57 +2,58 @@
  * @file src/config/ConfigSingleton.ts
  * @version 0.1.1
  * @date 2024-05-31
- * @brief Singleton class for application configuration.
+ * @summary Singleton class for application configuration.
  * @contact Geoff DeFilippi, geoff@sportsevents.ai
  * @github SportsEventsAI/dev-identity
- * @subdirectory react spa
- * @filename src/config/ConfigSingleton.ts
- * @details This singleton class ensures that the configuration is initialized once and provides
+ * @classdesc This singleton class ensures that the configuration is initialized once and provides
  * methods to access various configuration settings.
+ * @details Please use the useConfig hook to access the configuration in your components.
  * @reference https://en.wikipedia.org/wiki/Singleton_pattern
  */
 
 import { appConfig } from './appConfig';
 import { apiConfig } from './apiConfig';
 import { b2cConfig } from './b2cConfig';
-import { IConfig } from '../types/IConfig';
+import { Configuration } from '@azure/msal-browser';
+import { getMsalConfig } from './getMsalConfig';
+import { getDomainUrl } from './getDomainUrl';
+import { getPolicyAuthority } from './getPolicyAuthority';
+import { B2CPolicyTypes, IApiConfig, IAppConfig, IB2CConfig, IConfig } from '../types/IConfig';
 
-class ConfigSingleton {
-    private static instance: ConfigSingleton | null = null;
-    public config: IConfig;
+export class ConfigSingleton {
+    private static _instance: IConfig;
 
+    public b2c: IB2CConfig;
+    public app: IAppConfig;
+    public api: IApiConfig;
     /**
      * Private constructor to prevent direct instantiation.
      */
     private constructor() {
-        this.config = {
-            app: appConfig,
-            api: apiConfig,
-            b2c: b2cConfig,
+        this.api = apiConfig;
+        this.app = appConfig;
+        this.b2c = b2cConfig;
+        this.b2c.getMsalConfig = (): Configuration => {
+            return getMsalConfig();
         };
-    }
-
-    /**
-     * Initializes the singleton instance.
-     */
-    public static init(): void {
-        if (!ConfigSingleton.instance) {
-            ConfigSingleton.instance = new ConfigSingleton();
-        }
+        this.b2c.getDomainUrl = (domainType): string => {
+            return getDomainUrl(domainType);
+        };
+        this.b2c.getPolicyAuthority = (policy: B2CPolicyTypes): string => {
+            return getPolicyAuthority(policy);
+        };
     }
 
     /**
      * Returns the singleton instance.
      *
-     * @returns {ConfigSingleton} The singleton instance.
+     * @returns {IConfigs} The singleton instance.
      * @throws {Error} If the singleton is not initialized.
      */
-    public static getInstance(): ConfigSingleton {
-        if (!ConfigSingleton.instance) {
-            throw new Error('ConfigSingleton is not initialized. Call ConfigSingleton.init() first.');
+    public static get instance(): IConfig {
+        if (!ConfigSingleton._instance) {
+            ConfigSingleton._instance = new ConfigSingleton();
         }
-        return ConfigSingleton.instance;
+        return ConfigSingleton._instance;
     }
 }
-
-export default ConfigSingleton;

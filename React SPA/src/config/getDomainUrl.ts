@@ -12,8 +12,8 @@
  * @reference https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-reference-oauth-code
  */
 
-import ConfigSingleton from '.';
 import { B2CDomainTypes } from '../types/IConfig';
+import { useConfig } from '../hooks/useConfig';
 
 /**
  * Generates the domain URL based on the type.
@@ -23,11 +23,17 @@ import { B2CDomainTypes } from '../types/IConfig';
  * @throws {Error} If the domain type is invalid.
  */
 export const getDomainUrl = (domainType: B2CDomainTypes): string => {
-    const config = ConfigSingleton.getInstance().config;
+    const config = useConfig();
     if (domainType === B2CDomainTypes.Tenant) {
-        return `${config.b2c.tenant.name}.${config.b2c.tenant.domain}`;
+        return '{tenant}.{tenant_domain}'.formatUnicorn({
+            tenant: config.b2c.tenant.name,
+            tenant_domain: config.b2c.tenant.domain,
+        });
     } else if (domainType === B2CDomainTypes.Login) {
-        return `${config.b2c.tenant.name}.${config.b2c.login.domain}`;
+        return '{tenant}.{login_domain}'.formatUnicorn({
+            tenant: config.b2c.tenant.name,
+            login_domain: config.b2c.login.domain,
+        });
     } else {
         throw new Error(`Invalid domain type: ${domainType}`);
     }

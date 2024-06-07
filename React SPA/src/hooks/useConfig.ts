@@ -1,8 +1,10 @@
 // src/hooks/useConfig.ts
 
 import { useMemo } from 'react';
-import config from '../config';
-import { IConfigResult } from '../types/IConfig';
+import { config } from '../config';
+import { IConfig } from '../types/IConfig';
+
+// The config import is an export of the ConfigSingleton instance, which is a singleton instance of the configuration.
 
 /**
  * useConfig hook to access configuration values.
@@ -10,12 +12,10 @@ import { IConfigResult } from '../types/IConfig';
  * @hook
  * @filename src/hooks/useConfig.ts
  */
-export const useConfig = (): IConfigResult => {
-    // Return the configuration object, memoized so that we don't recalculate it on every render
-    return useMemo(
-        () => ({
-            config,
-        }),
-        [],
-    );
+export const useConfig = (): IConfig => {
+    return {
+        app: config.app,
+        api: config.api,
+        b2c: config.b2c,
+    };
 };

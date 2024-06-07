@@ -2,14 +2,10 @@
 
 import { createAction } from '@reduxjs/toolkit';
 import { AccountInfo, IdTokenClaims } from '@azure/msal-browser';
-
-export enum AuthStatus {
-    SUCCESS = 'SUCCESS',
-    FAILURE = 'FAILURE',
-}
+import { AuthActionStatus } from '../types/IConfig';
 
 export interface AuthPayload {
-    status: AuthStatus;
+    status: AuthActionStatus;
     user?: AccountInfo | null;
     token?: string | null;
     claims?: IdTokenClaims | null;

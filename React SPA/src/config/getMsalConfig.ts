@@ -13,7 +13,9 @@
  */
 
 import { Configuration, LogLevel } from '@azure/msal-browser';
-import ConfigSingleton from '.';
+import { ConfigSingleton } from './ConfigSingleton';
+import { useConfig } from '../hooks/useConfig';
+import { B2CDomainTypes, B2CPolicyTypes } from '../types/IConfig';
 
 /**
  * Generates the MSAL configuration object.
@@ -21,13 +23,16 @@ import ConfigSingleton from '.';
  * @returns {Configuration} The MSAL configuration object.
  */
 export const getMsalConfig = (): Configuration => {
-    const instance = ConfigSingleton.getInstance();
+    const config = useConfig();
 
     return {
         auth: {
-            clientId: instance.config.app.id,
-            authority: `https://${instance.config.b2c.tenant.name}.${instance.config.b2c.tenant.domain}/${instance.config.b2c.policies.signUpSignIn}`,
-            redirectUri: instance.config.app.redirectUri,
+            clientId: config.app.id,
+            authority:
+                config.b2c.getPolicyAuthority(B2CPolicyTypes.SignUpSignIn) ??
+                'https://login.microsoftonline.com/common',
+            knownAuthorities: [config.b2c.getDomainUrl(B2CDomainTypes.Tenant) ?? 'https://login.microsoftonline.com'],
+            redirectUri: config.app.redirectUri,
         },
         cache: {
             cacheLocation: 'localStorage', // This configures where your cache will be stored

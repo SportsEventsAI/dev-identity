@@ -2,7 +2,8 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AccountInfo, IdTokenClaims } from '@azure/msal-browser';
-import { updateAuthState, AuthPayload, AuthStatus } from './authActions';
+import { updateAuthState, AuthPayload } from './authActions';
+import { AuthActionStatus } from '../types/IConfig';
 
 interface IAuthState {
     isAuthenticated: boolean;
@@ -29,13 +30,13 @@ const authSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(updateAuthState, (state, action: PayloadAction<AuthPayload>) => {
-            if (action.payload.status === AuthStatus.SUCCESS) {
+            if (action.payload.status === AuthActionStatus.Success) {
                 state.isAuthenticated = true;
                 state.user = action.payload.user || null;
                 state.token = action.payload.token || null;
                 state.claims = action.payload.claims || null;
                 state.error = null;
-            } else if (action.payload.status === AuthStatus.FAILURE) {
+            } else if (action.payload.status === AuthActionStatus.Failure) {
                 state.isAuthenticated = false;
                 state.user = null;
                 state.token = null;

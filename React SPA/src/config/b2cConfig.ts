@@ -4,13 +4,10 @@ import { IB2CConfig } from '../types/IConfig';
 
 export const b2cConfig: IB2CConfig = {
     login: {
-        name: import.meta.env.VITE_B2C_LOGIN_NAME || 'default-login-name',
-        id: import.meta.env.VITE_B2C_LOGIN_ID || 'default-login-id',
         domain: import.meta.env.VITE_B2C_LOGIN_DOMAIN || 'login.domain.com',
     },
     tenant: {
         name: import.meta.env.VITE_B2C_TENANT_NAME || 'default-tenant-name',
-        id: import.meta.env.VITE_B2C_TENANT_ID || 'default-tenant-id',
         domain: import.meta.env.VITE_B2C_TENANT_DOMAIN || 'tenant.domain.com',
     },
     policies: {
@@ -25,4 +22,7 @@ export const b2cConfig: IB2CConfig = {
         read: import.meta.env.VITE_B2C_SCOPE_READ || 'https://yourdomain.com/read',
         write: import.meta.env.VITE_B2C_SCOPE_WRITE || 'https://yourdomain.com/write',
     },
+    getMsalConfig: () => null,
+    getDomainUrl: () => null,
+    getPolicyAuthority: () => null,
 };
