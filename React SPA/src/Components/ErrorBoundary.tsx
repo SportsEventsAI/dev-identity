@@ -1,15 +1,15 @@
 // src/components/ErrorBoundary.tsx
 
-import React, { ReactNode } from 'react';
+import React, { Component, ErrorInfo } from 'react';
 
-interface ErrorBoundaryProps {
-    children: ReactNode;
+interface Props {
+    children: React.ReactNode;
 }
 
-interface ErrorBoundaryState {
+interface State {
     hasError: boolean;
     error: Error | null;
-    errorInfo: React.ErrorInfo | null;
+    errorInfo: ErrorInfo | null;
 }
 
 /**
@@ -18,19 +18,19 @@ interface ErrorBoundaryState {
  * @component
  * @filename src/components/ErrorBoundary.tsx
  */
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-    constructor(props: ErrorBoundaryProps) {
+class ErrorBoundary extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = { hasError: false, error: null, errorInfo: null };
     }
 
-    static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
+    static getDerivedStateFromError(error: Error) {
         return { hasError: true, error };
     }
 
-    componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-        console.log('ErrorBoundary caught an error:', error, errorInfo);
+    componentDidCatch(error: Error, errorInfo: ErrorInfo) {
         this.setState({ error, errorInfo });
+        console.error('ErrorBoundary caught an error', error, errorInfo); // Enhanced logging
     }
 
     render() {

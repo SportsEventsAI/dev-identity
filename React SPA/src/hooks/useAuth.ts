@@ -7,82 +7,74 @@ import { useMsal } from '@azure/msal-react';
 import { useConfig } from './useConfig';
 import { AuthenticationResult } from '@azure/msal-browser';
 import { AuthActionStatus, AuthActionTypes, B2CPolicyTypes } from '../types/IConfig';
+import { withLogging } from '../utils/logging';
 
 export const useAuth = () => {
+    // hooks
     const { instance } = useMsal();
     const dispatch = useDispatch();
     const config = useConfig();
 
+    // selectors (Listening to this state in the component will trigger a re-render when the state changes.)
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
     const user = useSelector((state: RootState) => state.auth.user);
     const error = useSelector((state: RootState) => state.auth.error);
 
-    const handleAuthAction = async (action: AuthActionTypes, request?: any) => {
-        try {
-            let authResponse: AuthenticationResult | void;
+    // helper function to handle the different auth actions
+    const handleAuthAction = withLogging(async (action: AuthActionTypes, request?: any): Promise<void> => {
+        let authResponse: AuthenticationResult | void;
 
-            switch (action) {
-                //--------------------------------------------------------------------------------
-                // LOGIN ACTION
-                case AuthActionTypes.Login:
-                    // The actual call wrapped in MSAL to the B2C instance / policy
-                    authResponse = await instance.loginPopup(request);
-
-                    dispatch(
-                        updateAuthState({
-                            status: AuthActionStatus.Success,
-                            user: authResponse.account,
-                            token: authResponse.idToken,
-                            claims: authResponse.idTokenClaims,
-                        }),
-                    );
-                    break;
-                //--------------------------------------------------------------------------------
-                // LOGOUT ACTION
-                case AuthActionTypes.Logout:
-                    // The actual call wrapped in MSAL to the B2C instance / policy
-                    await instance.logoutPopup(request);
-
-                    dispatch(updateAuthState({ status: AuthActionStatus.Success }));
-                    break;
-                //--------------------------------------------------------------------------------
-                // RESET PASSWORD ACTION
-                case AuthActionTypes.ResetPassword:
-                    // The actual call wrapped in MSAL to the B2C instance / policy
-                    authResponse = await instance.loginPopup(request);
-
-                    dispatch(updateAuthState({ status: AuthActionStatus.Success }));
-                    break;
-                default:
-                    break;
-            }
-        } catch (error: any) {
-            dispatch(updateAuthState({ status: AuthActionStatus.Failure, error: error.message }));
-            // rethrow error to allow the caller to handle it
-            throw error;
+        switch (action) {
+            //--------------------------------------------------------------------------------
+            // LOGIN ACTION
+            case AuthActionTypes.Login:
+                authResponse = await instance.loginPopup(request);
+                dispatch(
+                    updateAuthState({
+                        status: AuthActionStatus.Success,
+                        user: authResponse.account,
+                        token: authResponse.idToken,
+                        claims: authResponse.idTokenClaims,
+                    }),
+                );
+                break;
+            //--------------------------------------------------------------------------------
+            // LOGOUT ACTION
+            case AuthActionTypes.Logout:
+                await instance.logoutPopup(request);
+                dispatch(updateAuthState({ status: AuthActionStatus.Success }));
+                break;
+            //--------------------------------------------------------------------------------
+            // RESET PASSWORD ACTION
+            case AuthActionTypes.ResetPassword:
+                authResponse = await instance.loginPopup(request);
+                dispatch(updateAuthState({ status: AuthActionStatus.Success }));
+                break;
+            default:
+                break;
         }
-    };
+    }, 'useAuth->handleAuthAction');
 
-    const handleLogin = async () => {
+    const handleLogin = withLogging(async (): Promise<void> => {
         const loginRequest = {
             scopes: [config.b2c.scopes.read, config.b2c.scopes.write],
         };
         await handleAuthAction(AuthActionTypes.Login, loginRequest);
-    };
+    }, 'useAuth->handleLogin');
 
-    const handleLogout = async () => {
+    const handleLogout = withLogging(async (): Promise<void> => {
         const logoutRequest = {
             postLogoutRedirectUri: '/',
         };
         await handleAuthAction(AuthActionTypes.Logout, logoutRequest);
-    };
+    }, 'useAuth->handleLogout');
 
-    const handleResetPassword = async () => {
+    const handleResetPassword = withLogging(async (): Promise<void> => {
         const resetRequest = {
             authority: config.b2c.getPolicyAuthority(B2CPolicyTypes.ResetPassword),
         };
         await handleAuthAction(AuthActionTypes.ResetPassword, resetRequest);
-    };
+    }, 'useAuth->handleResetPassword');
 
     return { isAuthenticated, user, error, handleLogin, handleLogout, handleResetPassword };
 };

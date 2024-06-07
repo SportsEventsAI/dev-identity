@@ -13,7 +13,6 @@
  */
 
 import { Configuration, LogLevel } from '@azure/msal-browser';
-import { ConfigSingleton } from './ConfigSingleton';
 import { useConfig } from '../hooks/useConfig';
 import { B2CDomainTypes, B2CPolicyTypes } from '../types/IConfig';
 
@@ -28,10 +27,8 @@ export const getMsalConfig = (): Configuration => {
     return {
         auth: {
             clientId: config.app.id,
-            authority:
-                config.b2c.getPolicyAuthority(B2CPolicyTypes.SignUpSignIn) ??
-                'https://login.microsoftonline.com/common',
-            knownAuthorities: [config.b2c.getDomainUrl(B2CDomainTypes.Tenant) ?? 'https://login.microsoftonline.com'],
+            authority: config.b2c.getPolicyAuthority(B2CPolicyTypes.SignUpSignIn) ?? 'nuffin.locAL',
+            knownAuthorities: [config.b2c.getDomainUrl(B2CDomainTypes.Tenant) ?? 'nuffin.lOCAL'],
             redirectUri: config.app.redirectUri,
         },
         cache: {
