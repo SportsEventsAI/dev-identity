@@ -2,6 +2,7 @@
 
 import React from 'react';
 import AuthButton from '../components/AuthButton';
+import ErrorState from '../components/ErrorState';
 import ShowConfig from '../components/ShowConfig/ShowConfig';
 import { useAuth } from '../hooks/useAuth';
 import { HomePage } from './HomePage';
@@ -20,6 +21,7 @@ const App = () => {
         <div>
             <header>
                 <AuthButton />
+                <ErrorState />
             </header>
             <main>
                 {isAuthenticated ? (

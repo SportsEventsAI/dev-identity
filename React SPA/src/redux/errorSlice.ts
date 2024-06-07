@@ -1,24 +1,27 @@
-// src/redux/errorSlice.ts
+// src/store/errorSlice.ts
 
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 interface ErrorState {
-    errors: { error: Error; errorInfo: React.ErrorInfo }[];
+    error: any;
 }
 
 const initialState: ErrorState = {
-    errors: [],
+    error: null,
 };
 
 const errorSlice = createSlice({
     name: 'error',
     initialState,
     reducers: {
-        logError: (state, action: PayloadAction<{ error: Error; errorInfo: React.ErrorInfo }>) => {
-            state.errors.push(action.payload);
+        setError(state, action) {
+            state.error = action.payload;
+        },
+        clearError(state) {
+            state.error = null;
         },
     },
 });
 
-export const { logError } = errorSlice.actions;
+export const { setError, clearError } = errorSlice.actions;
 export default errorSlice.reducer;
