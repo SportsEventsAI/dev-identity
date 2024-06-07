@@ -37,11 +37,16 @@ const authSlice = createSlice({
                 state.claims = action.payload.claims || null;
                 state.error = null;
             } else if (action.payload.status === AuthActionStatus.Failure) {
+                const error = action.payload.error || 'An unknown error occurred.';
+
                 state.isAuthenticated = false;
                 state.user = null;
                 state.token = null;
                 state.claims = null;
-                state.error = action.payload.error || null;
+                state.error = error;
+                // rethrow error to allow the caller to handle it
+                //DEBUG ONLY
+                //throw new Error(error);
             }
         });
     },

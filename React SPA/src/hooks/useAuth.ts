@@ -22,8 +22,12 @@ export const useAuth = () => {
             let authResponse: AuthenticationResult | void;
 
             switch (action) {
+                //--------------------------------------------------------------------------------
+                // LOGIN ACTION
                 case AuthActionTypes.Login:
+                    // The actual call wrapped in MSAL to the B2C instance / policy
                     authResponse = await instance.loginPopup(request);
+
                     dispatch(
                         updateAuthState({
                             status: AuthActionStatus.Success,
@@ -33,12 +37,20 @@ export const useAuth = () => {
                         }),
                     );
                     break;
+                //--------------------------------------------------------------------------------
+                // LOGOUT ACTION
                 case AuthActionTypes.Logout:
+                    // The actual call wrapped in MSAL to the B2C instance / policy
                     await instance.logoutPopup(request);
+
                     dispatch(updateAuthState({ status: AuthActionStatus.Success }));
                     break;
+                //--------------------------------------------------------------------------------
+                // RESET PASSWORD ACTION
                 case AuthActionTypes.ResetPassword:
+                    // The actual call wrapped in MSAL to the B2C instance / policy
                     authResponse = await instance.loginPopup(request);
+
                     dispatch(updateAuthState({ status: AuthActionStatus.Success }));
                     break;
                 default:
@@ -46,6 +58,8 @@ export const useAuth = () => {
             }
         } catch (error: any) {
             dispatch(updateAuthState({ status: AuthActionStatus.Failure, error: error.message }));
+            // rethrow error to allow the caller to handle it
+            throw error;
         }
     };
 
