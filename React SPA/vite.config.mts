@@ -12,6 +12,9 @@ const port = process.env.VITE_PORT || 3000;
 export default defineConfig(() => {
     return {
         server: {
+            hmr: {
+                overlay: false,
+            },
             port: Number(port),
         },
         build: {
