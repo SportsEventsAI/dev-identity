@@ -1,5 +1,3 @@
-// src/hooks/useAuth.ts
-
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAuthState } from '../redux/authActions';
 import { RootState } from '../redux/store';
@@ -7,13 +5,14 @@ import { useMsal } from '@azure/msal-react';
 import { useConfig } from './useConfig';
 import { AuthenticationResult } from '@azure/msal-browser';
 import { AuthActionStatus, AuthActionTypes, B2CPolicyTypes } from '../types/IConfig';
-import { withLogging } from '../utils/logging';
+import { useLoggingWrapper } from '../utils/logging/loggingWrapper';
 
 export const useAuth = () => {
     // hooks
     const { instance } = useMsal();
     const dispatch = useDispatch();
     const config = useConfig();
+    const { withLogging } = useLoggingWrapper();
 
     // selectors (Listening to this state in the component will trigger a re-render when the state changes.)
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
