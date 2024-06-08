@@ -1,5 +1,5 @@
 import React, { ReactNode, createContext, useContext, useState } from 'react';
-import { Logger, LoggerSettings } from '../utils/logging/logger';
+import { Logger, LoggerSettings } from '../utils/logger';
 import { ConsoleLoggingStrategy } from '../utils/logging/loggingStrategies';
 
 const defaultLoggerSettings: LoggerSettings = {

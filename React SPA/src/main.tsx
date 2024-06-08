@@ -20,9 +20,9 @@ import './utils/stringExtensions'; // Load Prototype Extensions Early
 
 import ErrorBoundary from './components/ErrorBoundary';
 import { useConfig } from './hooks/useConfig';
-import { useLogger } from './hooks/useLogger';
 import App from './pages/App';
 import { store } from './redux/store';
+import { logger as log } from './utils/logger';
 
 // Style Sheet
 import './main.scss';
@@ -32,22 +32,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { LoggerProvider } from './context/LoggerContext';
 
 const MainComponent = () => {
-    const log = useLogger();
-
     useEffect(() => {
-        log('info', 'MainComponent did mount');
+        log.trace('MainComponent did mount');
 
         const config = useConfig();
-        log('info', 'Config loaded', config);
+        log.trace('Config loaded', config);
         const msalConfig = config.b2c.getMsalConfig();
-        log('info', 'Msal Config loaded', msalConfig);
+        log.trace('Msal Config loaded', msalConfig);
         if (!msalConfig) {
-            log('error', 'Msal Configuration not found');
+            log.error('Msal Configuration not found');
             throw new Error('Msal Configuration not found');
         }
 
         const msalInstance = new PublicClientApplication(msalConfig);
-        log('info', 'Msal Instance created', msalInstance);
+        log.trace('Msal Instance created', msalInstance);
 
         createRoot(document.getElementById('root')!).render(
             <LoggerProvider>
@@ -66,7 +64,6 @@ const MainComponent = () => {
 };
 
 // Render the application
-const rootElement = document.getElementById('root');
-if (rootElement) {
-    createRoot(rootElement).render(<MainComponent />);
-}
+// Remove the call to createRoot and directly render the MainComponent
+const root = createRoot(document.getElementById('root')!);
+root.render(<MainComponent />);

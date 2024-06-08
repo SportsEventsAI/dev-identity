@@ -1,5 +1,5 @@
 import { Middleware } from '@reduxjs/toolkit';
-import { Logger } from './logger';
+import { Logger } from '../logger';
 import { ConsoleLoggingStrategy } from './loggingStrategies';
 
 // Customize logger settings here
