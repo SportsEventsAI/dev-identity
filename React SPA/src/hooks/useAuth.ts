@@ -79,7 +79,7 @@ const useAuthLogic = () => {
     return { isAuthenticated, user, error, handleLogin, handleLogout, handleResetPassword };
 };
 
-const useAuth = () => {
+export const useAuth = () => {
     const authLogic = useAuthLogic();
     onMethodCall({ target: authLogic }, { key: 'useAuth' }, { args: [] });
     return authLogic;

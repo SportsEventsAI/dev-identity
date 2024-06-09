@@ -1,3 +1,13 @@
+/**
+ * @file src/aspects/loggingAspects.ts
+ * @version 0.1.1
+ * @date 2024-06-08
+ * @summary Loggingaspects
+ * @contact geoff@sportsevents.ai
+ * @github SportsEventsAI/dev-identity
+ * @description This file contains the loggingaspects related logic.
+ * @author Geoffrey DeFilippi
+ */
 import { beforeMethod, afterMethod, onException, beforeInstance, afterInstance } from 'kaop-ts';
 import { Logger } from 'tslog';
 

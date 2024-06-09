@@ -1,6 +1,4 @@
 // src/hooks/useConfig.ts
-
-import { useMemo } from 'react';
 import { config } from '../config';
 import { IConfig } from '../types/IConfig';
 
@@ -19,3 +17,4 @@ export const useConfig = (): IConfig => {
         b2c: config.b2c,
     };
 };
+export default useConfig;
