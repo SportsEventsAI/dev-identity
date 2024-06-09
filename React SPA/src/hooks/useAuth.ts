@@ -1,22 +1,44 @@
+/**
+ * @file src/hooks/useAuth.ts
+ * @version 0.1.1
+ * @date 2024-06-08
+ * @summary Authentication logic and components.
+ * @contact Geoff DeFilippi, geoff@sportsevents.ai
+ * @github SportsEventsAI/dev-identity
+ * @description This file contains authentication-related logic and components to manage user authentication.
+ * @notes This is more like the auth service.  we will consider it an auth service wrapper.
+ * Each one of these is expected to dispatch state to the store using some action.
+ * TODO: Add caching and error handling.
+ * @reference
+ */
+
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAuthState } from '../redux/authActions';
 import { RootState } from '../redux/store';
 import { useMsal } from '@azure/msal-react';
 import { useConfig } from './useConfig';
 import { AuthenticationResult } from '@azure/msal-browser';
-import { AuthActionStatus, AuthActionTypes, B2CPolicyTypes } from '../types/IConfig';
+import { AuthActionStatus, AuthActionTypes, B2CPolicyTypes } from '../types';
 import { onMethodCall } from '../aspects/loggingAspects';
 
+/**
+ *
+ * It should be apparent from the code below that this is an implementation of
+ * MSAL and AD B2C.  It is expected that the B2C configuration that will be used
+ * is correctly setup.  This uses default B2C policies that aren't provisioned with the
+ * service and will require setup in Azure.
+ */
+// Custom hook for authentication logic
 const useAuthLogic = () => {
     // hooks
-    const { instance } = useMsal();
-    const dispatch = useDispatch();
-    const config = useConfig();
+    const { instance } = useMsal(); // Access the MSAL instance
+    const dispatch = useDispatch(); // Access the Redux dispatch function
+    const config = useConfig(); // Access the configuration
 
     // selectors (Listening to this state in the component will trigger a re-render when the state changes.)
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
-    const user = useSelector((state: RootState) => state.auth.user);
-    const error = useSelector((state: RootState) => state.auth.error);
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated); // Check if the user is authenticated
+    const user = useSelector((state: RootState) => state.auth.user); // Get the user object
+    const error = useSelector((state: RootState) => state.auth.error); // Get the error object
 
     // helper function to handle the different auth actions
     const handleAuthAction = async (action: AuthActionTypes, request?: any): Promise<void> => {
@@ -26,7 +48,7 @@ const useAuthLogic = () => {
             switch (action) {
                 // LOGIN ACTION
                 case AuthActionTypes.Login:
-                    authResponse = await instance.loginPopup(request);
+                    authResponse = await instance.loginPopup(request); // Perform login using MSAL
                     dispatch(
                         updateAuthState({
                             status: AuthActionStatus.Success,
@@ -34,17 +56,17 @@ const useAuthLogic = () => {
                             token: authResponse.idToken,
                             claims: authResponse.idTokenClaims,
                         }),
-                    );
+                    ); // Dispatch the updated authentication state to the Redux store
                     break;
                 // LOGOUT ACTION
                 case AuthActionTypes.Logout:
-                    await instance.logoutPopup(request);
-                    dispatch(updateAuthState({ status: AuthActionStatus.Success }));
+                    await instance.logoutPopup(request); // Perform logout using MSAL
+                    dispatch(updateAuthState({ status: AuthActionStatus.Success })); // Dispatch the updated authentication state to the Redux store
                     break;
                 // RESET PASSWORD ACTION
                 case AuthActionTypes.ResetPassword:
-                    authResponse = await instance.loginPopup(request);
-                    dispatch(updateAuthState({ status: AuthActionStatus.Success }));
+                    authResponse = await instance.loginPopup(request); // Perform password reset using MSAL
+                    dispatch(updateAuthState({ status: AuthActionStatus.Success })); // Dispatch the updated authentication state to the Redux store
                     break;
                 default:
                     break;
@@ -55,34 +77,39 @@ const useAuthLogic = () => {
         }
     };
 
+    // Function to handle login action
     const handleLogin = async (): Promise<void> => {
         const loginRequest = {
-            scopes: [config.b2c.scopes.read, config.b2c.scopes.write],
+            scopes: [config.b2c.scopes.read, config.b2c.scopes.write], // Specify the scopes for login
         };
-        await handleAuthAction(AuthActionTypes.Login, loginRequest);
+        await handleAuthAction(AuthActionTypes.Login, loginRequest); // Call the helper function to handle the login action
     };
 
+    // Function to handle logout action
     const handleLogout = async (): Promise<void> => {
         const logoutRequest = {
-            postLogoutRedirectUri: '/',
+            postLogoutRedirectUri: '/', // Specify the redirect URI after logout
         };
-        await handleAuthAction(AuthActionTypes.Logout, logoutRequest);
+        await handleAuthAction(AuthActionTypes.Logout, logoutRequest); // Call the helper function to handle the logout action
     };
 
+    // Function to handle password reset action
     const handleResetPassword = async (): Promise<void> => {
         const resetRequest = {
-            authority: config.b2c.getPolicyAuthority(B2CPolicyTypes.ResetPassword),
+            authority: config.b2c.getPolicyAuthority(B2CPolicyTypes.ResetPassword), // Get the authority for password reset
         };
-        await handleAuthAction(AuthActionTypes.ResetPassword, resetRequest);
+        await handleAuthAction(AuthActionTypes.ResetPassword, resetRequest); // Call the helper function to handle the password reset action
     };
 
+    // Return the necessary variables and functions for authentication
     return { isAuthenticated, user, error, handleLogin, handleLogout, handleResetPassword };
 };
 
+// Custom hook for using authentication logic
 export const useAuth = () => {
-    const authLogic = useAuthLogic();
-    onMethodCall({ target: authLogic }, { key: 'useAuth' }, { args: [] });
-    return authLogic;
+    const authLogic = useAuthLogic(); // Call the authentication logic hook
+    onMethodCall({ target: authLogic }, { key: 'useAuth' }, { args: [] }); // Log the method call
+    return authLogic; // Return the authentication logic
 };
 
-export default useAuth;
+export default useAuth; // Export the default hook

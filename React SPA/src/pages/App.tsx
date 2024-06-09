@@ -1,5 +1,13 @@
-// src/pages/App.tsx
-
+/**
+ * @file src/pages/App.tsx
+ * @version 0.1.1
+ * @date 2024-06-08
+ * @summary Appx
+ * @contact geoff@sportsevents.ai
+ * @github SportsEventsAI/dev-identity
+ * @description This file contains the appx related logic.
+ * @author Geoffrey DeFilippi
+ */
 import React from 'react';
 import AuthButton from '../components/AuthButton';
 import ErrorState from '../components/ErrorState';

@@ -1,4 +1,12 @@
-// src/redux/index.ts
+/**
+ * @file src/redux/store.ts
+ * @version 0.1.1
+ * @date 2024-06-08
+ * @summary Redux Main Store
+ * @contact Geoff DeFilippi, geoff@sportsevents.ai
+ * @github SportsEventsAI/dev-identity
+ * @description The main redux store
+ */
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice'; // Updated to match the slice name
 import errorReducer from './errorSlice'; // Added to the store

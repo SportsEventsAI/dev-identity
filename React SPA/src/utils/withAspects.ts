@@ -1,7 +1,14 @@
-// Importing the applyAspect function from the 'kaop-ts' library
+/**
+ * @file src/utils/withAspects.ts
+ * @version 0.1.1
+ * @date 2024-06-08
+ * @summary Withaspects
+ * @contact geoff@sportsevents.ai
+ * @github SportsEventsAI/dev-identity
+ * @description This file contains the withaspects related logic.
+ * @author Geoffrey DeFilippi
+ */
 import { applyAspect } from 'kaop-ts';
-
-// Importing all aspects from the '../aspects/loggingAspect' module
 import * as aspects from '../aspects/loggingAspects';
 
 /**
@@ -11,7 +18,7 @@ import * as aspects from '../aspects/loggingAspects';
  * @param hookName - The name of the hook.
  * @returns A new function that applies aspects to each method in the logic object.
  */
-const withAspects = (hookLogic: () => any, hookName: string) => {
+export const withAspects = (hookLogic: () => any) => {
     return () => {
         // Invoking the hook logic function and storing the result in the 'logic' variable
         const logic = hookLogic();

@@ -18,7 +18,7 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import './utils/stringExtensions'; // Load Prototype Extensions Early
 
-import ErrorBoundary from './components/ErrorBoundary';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import { useConfig } from './hooks/useConfig';
 import App from './pages/App';
 import { store } from './redux/store';

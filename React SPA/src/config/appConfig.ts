@@ -1,6 +1,14 @@
-// src/config/appConfig.ts
-
-import { IAppConfig } from '../types/IConfig';
+/**
+ * @file src/config/appConfig.ts
+ * @version 0.1.1
+ * @date 2024-06-08
+ * @summary Appconfig
+ * @contact geoff@sportsevents.ai
+ * @github SportsEventsAI/dev-identity
+ * @description This file contains the appconfig related logic.
+ * @author Geoffrey DeFilippi
+ */
+import { IAppConfig } from '../types';
 
 export const appConfig: IAppConfig = {
     id: import.meta.env.VITE_APP_ID || 'default-app-id',

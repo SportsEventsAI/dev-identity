@@ -12,4 +12,7 @@
 
 import { ConfigSingleton } from './ConfigSingleton';
 
+// Allow both kinds of imports
+// Prefer using the default import as this is the only thing this file does
 export const config = ConfigSingleton.instance;
+export default config;

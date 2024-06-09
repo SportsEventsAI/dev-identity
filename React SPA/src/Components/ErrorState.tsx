@@ -1,5 +1,14 @@
 // src/components/ErrorState.tsx
 
+/**
+ * @file src/components/ErrorState.tsx
+ * @version 0.1.1
+ * @date 2024-06-08
+ * @summary Errorstatex
+ * @contact Geoff DeFilippi, geoff@sportsevents.ai
+ * @github SportsEventsAI/dev-identity
+ * @description This file contains the errorstatex related logic.
+ */
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store'; // Adjust the import according to your store setup

@@ -1,9 +1,18 @@
-// src/redux/authSlice.ts
+/**
+ * @file src/redux/authSlice.ts
+ * @version 0.1.1
+ * @date 2024-06-08
+ * @summary Authslice
+ * @contact geoff@sportsevents.ai
+ * @github SportsEventsAI/dev-identity
+ * @description This file contains the authslice related logic.
+ * @author Geoffrey DeFilippi
+ */
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AccountInfo, IdTokenClaims } from '@azure/msal-browser';
 import { updateAuthState, AuthPayload } from './authActions';
-import { AuthActionStatus } from '../types/IConfig';
+import { AuthActionStatus } from '../types';
 
 interface IAuthState {
     isAuthenticated: boolean;

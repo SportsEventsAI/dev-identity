@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useConfig } from '../../hooks/useConfig';
-import { B2CDomainTypes, B2CPolicyTypes } from '../../types/IConfig';
+import { B2CDomainTypes, B2CPolicyTypes } from '../../types';
 
 /**
  * ShowConfig demonstrates using the useConfig hook to access configuration.

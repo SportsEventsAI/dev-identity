@@ -2,19 +2,17 @@
  * @file src/config/getMsalConfig.ts
  * @version 0.1.1
  * @date 2024-05-31
- * @brief Provides the MSAL configuration for authentication.
+ * @summary Provides the MSAL configuration for authentication.
  * @contact Geoff DeFilippi, geoff@sportsevents.ai
  * @github SportsEventsAI/dev-identity
- * @subdirectory react spa
- * @filename src/config/getMsalConfig.ts
- * @details This module exports a function to generate the MSAL configuration object.
+ * @description This module exports a function to generate the MSAL configuration object.
  * The configuration is based on the settings provided in the singleton configuration.
  * @reference https://github.com/AzureAD/microsoft-authentication-library-for-js
  */
 
 import { Configuration, LogLevel } from '@azure/msal-browser';
 import { useConfig } from '../hooks/useConfig';
-import { B2CDomainTypes, B2CPolicyTypes } from '../types/IConfig';
+import { B2CDomainTypes, B2CPolicyTypes } from '../types';
 
 /**
  * Generates the MSAL configuration object.

@@ -12,7 +12,7 @@
  * @reference https://docs.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-user-flows
  */
 
-import { B2CDomainTypes, B2CPolicyTypes, IConfig } from '../types/IConfig';
+import { B2CDomainTypes, B2CPolicyTypes, IConfig } from '../types';
 import { useConfig } from '../hooks/useConfig';
 
 /**

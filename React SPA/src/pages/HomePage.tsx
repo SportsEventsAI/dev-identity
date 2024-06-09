@@ -1,3 +1,13 @@
+/**
+ * @file src/pages/HomePage.tsx
+ * @version 0.1.1
+ * @date 2024-06-08
+ * @summary Homepagex
+ * @contact geoff@sportsevents.ai
+ * @github SportsEventsAI/dev-identity
+ * @description This file contains the homepagex related logic.
+ * @author Geoffrey DeFilippi
+ */
 import React from 'react';
 
 const HomePage = () => {

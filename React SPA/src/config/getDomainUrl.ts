@@ -2,17 +2,15 @@
  * @file src/config/getDomainUrl.ts
  * @version 0.1.1
  * @date 2024-05-31
- * @brief Provides utility to generate domain URLs.
+ * @summary Provides utility to generate domain URLs.
  * @contact Geoff DeFilippi, geoff@sportsevents.ai
  * @github SportsEventsAI/dev-identity
- * @subdirectory react spa
- * @filename src/config/getDomainUrl.ts
- * @details This module exports a function to generate the domain URL based on the type.
+ * @description This module exports a function to generate the domain URL based on the type.
  * The configuration is provided in the singleton configuration.
  * @reference https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-reference-oauth-code
  */
 
-import { B2CDomainTypes } from '../types/IConfig';
+import { B2CDomainTypes } from '../types';
 import { useConfig } from '../hooks/useConfig';
 
 /**
