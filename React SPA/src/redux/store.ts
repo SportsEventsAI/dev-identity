@@ -2,7 +2,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice'; // Updated to match the slice name
 import errorReducer from './errorSlice'; // Added to the store
-import { loggerMiddleware } from '../utils/logging';
+import loggerMiddleware from '../utils/loggerMiddleware'; // Added to the store
 
 /**
  * The Redux store for managing application state.

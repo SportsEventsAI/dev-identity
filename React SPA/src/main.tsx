@@ -13,7 +13,7 @@
 
 import { PublicClientApplication } from '@azure/msal-browser';
 import { MsalProvider } from '@azure/msal-react';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import './utils/stringExtensions'; // Load Prototype Extensions Early
@@ -22,48 +22,37 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { useConfig } from './hooks/useConfig';
 import App from './pages/App';
 import { store } from './redux/store';
-import { logger as log } from './utils/logger';
 
 // Style Sheet
 import './main.scss';
 
 // Bootstrap components
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { LoggerProvider } from './context/LoggerContext';
 
-const MainComponent = () => {
-    useEffect(() => {
-        log.trace('MainComponent did mount');
+/**
+ * Creates a new instance of the PublicClientApplication class.
+ * @param {MsalConfiguration} config - The configuration object for MSAL.
+ * @returns {PublicClientApplication} - The newly created instance of PublicClientApplication.
+ * @filename src/main.tsx
+ */
+const config = useConfig();
+const msalConfig = config.b2c.getMsalConfig();
 
-        const config = useConfig();
-        log.trace('Config loaded', config);
-        const msalConfig = config.b2c.getMsalConfig();
-        log.trace('Msal Config loaded', msalConfig);
-        if (!msalConfig) {
-            log.error('Msal Configuration not found');
-            throw new Error('Msal Configuration not found');
-        }
-
-        const msalInstance = new PublicClientApplication(msalConfig);
-        log.trace('Msal Instance created', msalInstance);
-
-        createRoot(document.getElementById('root')!).render(
-            <LoggerProvider>
-                <Provider store={store}>
-                    <ErrorBoundary>
-                        <MsalProvider instance={msalInstance}>
-                            <App />
-                        </MsalProvider>
-                    </ErrorBoundary>
-                </Provider>
-            </LoggerProvider>,
-        );
-    }, [log]);
-
-    return null;
-};
+if (!msalConfig) {
+    throw new Error('Msal Configuration not found');
+}
+const msalInstance = new PublicClientApplication(msalConfig);
 
 // Render the application
-// Remove the call to createRoot and directly render the MainComponent
-const root = createRoot(document.getElementById('root')!);
-root.render(<MainComponent />);
+const rootElement = document.getElementById('root');
+if (rootElement) {
+    createRoot(rootElement).render(
+        <Provider store={store}>
+            <ErrorBoundary>
+                <MsalProvider instance={msalInstance}>
+                    <App />
+                </MsalProvider>
+            </ErrorBoundary>
+        </Provider>,
+    );
+}
