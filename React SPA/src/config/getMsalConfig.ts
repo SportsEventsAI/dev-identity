@@ -25,8 +25,11 @@ export const getMsalConfig = (): Configuration => {
     return {
         auth: {
             clientId: config.app.id,
-            authority: config.b2c.getPolicyAuthority(B2CPolicyTypes.SignUpSignIn) ?? 'nuffin.locAL',
-            knownAuthorities: [config.b2c.getDomainUrl(B2CDomainTypes.Tenant) ?? 'nuffin.lOCAL'],
+            authority: config.b2c.getPolicyAuthority(B2CPolicyTypes.SignUpSignIn) ?? 'susi',
+            knownAuthorities: [
+                config.b2c.getDomainUrl(B2CDomainTypes.Login) ?? 'login.local',
+                config.b2c.getDomainUrl(B2CDomainTypes.Tenant) ?? 'tenant.local',
+            ],
             redirectUri: config.app.redirectUri,
         },
         cache: {

@@ -80,7 +80,13 @@ const useAuthLogic = () => {
     // Function to handle login action
     const handleLogin = async (): Promise<void> => {
         const loginRequest = {
-            scopes: [config.b2c.scopes.read, config.b2c.scopes.write], // Specify the scopes for login
+            // This isn't a token request, it's a login request.
+            //  so it's not necessary to specify the scopes here.
+            //  but they would or could be:
+            // 'openid profile offline_access'
+            // or a subset of those
+            // https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/working-with-b2c.md
+            // scopes: [config.b2c.scopes.read, config.b2c.scopes.write], // Specify the scopes for login
         };
         await handleAuthAction(AuthActionTypes.Login, loginRequest); // Call the helper function to handle the login action
     };
@@ -88,7 +94,7 @@ const useAuthLogic = () => {
     // Function to handle logout action
     const handleLogout = async (): Promise<void> => {
         const logoutRequest = {
-            postLogoutRedirectUri: '/', // Specify the redirect URI after logout
+            //postLogoutRedirectUri: '/', // Specify the redirect URI after logout
         };
         await handleAuthAction(AuthActionTypes.Logout, logoutRequest); // Call the helper function to handle the logout action
     };
