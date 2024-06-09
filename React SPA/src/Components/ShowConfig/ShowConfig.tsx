@@ -1,5 +1,13 @@
-// src/components/ShowConfig.tsx
-
+/**
+ * @file src/components/ShowConfig/ShowConfig.tsx
+ * @version 0.1.1
+ * @date 2024-06-08
+ * @summary Showconfigx
+ * @contact geoff@sportsevents.ai
+ * @github SportsEventsAI/dev-identity
+ * @description This file contains the showconfigx related logic.
+ * @author Geoffrey DeFilippi
+ */
 import React from 'react';
 import { useConfig } from '../../hooks/useConfig';
 import { B2CDomainTypes, B2CPolicyTypes } from '../../types';

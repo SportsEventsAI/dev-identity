@@ -1,3 +1,13 @@
+/**
+ * @file src/components/Profile/ProfileLayout.tsx
+ * @version 0.1.1
+ * @date 2024-06-08
+ * @summary Profilelayoutx
+ * @contact geoff@sportsevents.ai
+ * @github SportsEventsAI/dev-identity
+ * @description This file contains the profilelayoutx related logic.
+ * @author Geoffrey DeFilippi
+ */
 import React, { ReactNode } from 'react';
 import styles from './profile.module.scss';
 

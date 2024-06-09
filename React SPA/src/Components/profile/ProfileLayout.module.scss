@@ -1,14 +1,11 @@
 /**
- * Styles for the profile page.
- *
- * This SCSS file contains styles for the profile page of the React SPA.
- * It includes styles for the title, text, input, button, and icon elements.
- *
- * @file This file defines the styles for the profile page.
- * @author Geoff DeFilippi
- * @version 1.0.0
- * @since 5/31/2024
- * @filename /src/styles/profile.scss
+ * @file src/components/Profile/ProfileLayout.module.scss
+ * @version 0.1.1
+ * @date 2024-06-08
+ * @summary Button component for triggering actions.
+ * @contact Geoff DeFilippi, geoff@sportsevents.ai
+ * @github SportsEventsAI/dev-identity
+ * @description This component renders a button that triggers specific actions, such as authentication or form submission.
  */
 .profile_container {
     width: 100%;

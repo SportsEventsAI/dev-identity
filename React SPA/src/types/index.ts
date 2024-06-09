@@ -40,7 +40,7 @@ export enum B2CPolicyTypes {
 }
 
 // Interface defining the configuration for the app
-interface IAppConfig {
+export interface IAppConfig {
     id: string;
     name: string;
     version: string;
@@ -48,23 +48,23 @@ interface IAppConfig {
 }
 
 // Interface defining the configuration for the API
-interface IApiConfig {
+export interface IApiConfig {
     uri: string;
 }
 
 // Interface defining the login configuration for B2C
-interface IB2CLoginConfig {
+export interface IB2CLoginConfig {
     domain: string;
 }
 
 // Interface defining the tenant configuration for B2C
-interface IB2CTenantConfig {
+export interface IB2CTenantConfig {
     name: string;
     domain: string;
 }
 
 // Interface defining the policies configuration for B2C
-interface IB2CPoliciesConfig {
+export interface IB2CPoliciesConfig {
     signUpSignIn: string;
     signIn: string;
     resetPassword: string;
@@ -74,7 +74,7 @@ interface IB2CPoliciesConfig {
 }
 
 // Interface defining the scopes configuration for B2C
-interface IB2CScopesConfig {
+export interface IB2CScopesConfig {
     read: string;
     write: string;
 }
