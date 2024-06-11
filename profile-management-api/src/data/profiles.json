@@ -1,0 +1,25 @@
+{
+  "user1": {
+    "userId": "user1",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "contactNumber": "123-456-7890",
+    "billingAddress": "123 Main St, Anytown, USA",
+    "authorizedUsers": [
+      {
+        "email": "jane.doe@example.com",
+        "phone": "987-654-3210",
+        "name": "Jane Doe",
+        "age": 25,
+        "relationship": "Spouse"
+      },
+      {
+        "email": "joe.doe@example.com",
+        "phone": "555-555-5555",
+        "name": "Joe Doe",
+        "age": 18,
+        "relationship": "Child"
+      }
+    ]
+  }
+}
