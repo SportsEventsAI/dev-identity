@@ -1,5 +1,4 @@
-import { CommandLogger } from "./CommandLogger"; // Assuming CommandLogger is in a file named CommandLogger.js
-import { getCurrentDateFormatted } from "../src/utils/date";
+import { getCurrentDateFormatted, CommandLogger } from "./utils.js";
 
 const generateZipCommandArgs = (path, filename) => {
   const currentDateFormatted = getCurrentDateFormatted();

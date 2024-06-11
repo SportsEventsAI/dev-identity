@@ -1,9 +1,14 @@
 import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
-const dataDir = path.join(__dirname, "data");
-const profilesFile = path.join(dataDir, "profiles.json");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const profilesFile = path.join(__dirname, "data/profiles.json");
+console.log("directory-name 👉️", __dirname);
+console.log("profiles-file 👉️", profilesFile);
 
 // Helper functions to read and write data
 const readData = (filePath: string) => {
