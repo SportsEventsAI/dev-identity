@@ -2,7 +2,8 @@ import request from "supertest";
 import express from "express";
 import authenticate from "./../src/authMiddleware";
 import jwt from "jsonwebtoken";
-
+import * as dotenv from "dotenv";
+dotenv.config();
 const app = express();
 app.use(authenticate);
 

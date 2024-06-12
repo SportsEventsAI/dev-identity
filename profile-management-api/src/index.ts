@@ -7,15 +7,20 @@ import {
   addAuthorizedUser,
 } from "./ProfileController";
 
+import * as dotenv from "dotenv";
+import authenticate from "./authMiddleware";
+dotenv.config();
+
 const app = express();
 app.use(bodyParser.json());
 
-app.get("/api/profile", getProfile);
-app.post("/api/profile", updateProfile);
-app.get("/api/authorized-users", getAuthorizedUsers);
-app.post("/api/authorized-users", addAuthorizedUser);
+app.get("/api/profile", authenticate, getProfile);
+app.post("/api/profile", authenticate, updateProfile);
+app.get("/api/authorized-users", authenticate, getAuthorizedUsers);
+app.post("/api/authorized-users", authenticate, addAuthorizedUser);
 
-const port = 5000;
+const port = process.env.PORT || 5000;
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

@@ -23,6 +23,7 @@
   "description": "A mock Profile API for use with my Azure B2C integration project",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
