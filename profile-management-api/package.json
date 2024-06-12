@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./scripts/start.js",
     "build": "node ./scripts/build.js",
-    "zipai": "node ./scripts/zipai.js"
+    "zipai": "node ./scripts/zipai.js",
+    "test": "jest"
   },
   "type": "module",
   "keywords": [
@@ -37,6 +38,7 @@
     "node-zip-cli": "https://github.com/matteosacchetto/node-zip-cli/releases/download/v0.6.0/node-zip-cli-0.6.0.tgz",
     "supertest": "^7.0.0",
     "ts-jest": "^29.1.4",
+    "ts-node": "^10.9.2",
     "tsx": "^4.15.2",
     "typescript": "^5.4.5"
   }
