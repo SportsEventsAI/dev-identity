@@ -9,10 +9,12 @@ import {
 
 import * as dotenv from "dotenv";
 import authenticate from "./authMiddleware";
+import passport from "passport";
 dotenv.config();
 
 const app = express();
 app.use(bodyParser.json());
+app.use(passport.initialize());
 
 app.get("/api/profile", authenticate, getProfile);
 app.post("/api/profile", authenticate, updateProfile);

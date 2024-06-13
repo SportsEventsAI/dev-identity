@@ -1,8 +1,8 @@
 {
   "user1": {
     "userId": "user1",
-    "name": "John Doe Updated",
-    "email": "john.doe.updated@example.com",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
     "contactNumber": "123-456-7890",
     "billingAddress": "123 Main St, Anytown, USA",
     "authorizedUsers": [

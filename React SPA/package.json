@@ -25,6 +25,7 @@
         "kaop-ts": "^4.3.0",
         "react": "^18.3.1",
         "react-aad-msal": "^2.3.5",
+        "react-bootstrap": "^2.10.2",
         "react-dom": "^18.3.1",
         "react-hook-form": "^7.51.5",
         "react-redux": "^9.1.2",
